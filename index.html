@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bhai pdfs feedback</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Ambient orbs -->
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
+  <div class="noise"></div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <a class="logo" href="#">
+    <div class="logo-mark">
+      <img src="logo.jpeg" alt="Logo" class="logo-img" />
+</div>
+<span>Bhai pdfs</span>
+      </a>
+      <div class="header-pill">Feedback Portal</div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">
+      <span class="eyebrow-dot"></span>
+      Share your experience
+    </div>
+    <h1 class="hero-title">What do you<br/><em>really think?</em></h1>
+    <p class="hero-sub">Everyone should give rating then only i contunie 4.1 sem pdfs 😁</p>
+  </section>
+
+  <!-- MAIN GRID — Form + Chart only -->
+  <main class="grid">
+
+    <!-- FORM CARD -->
+    <div class="card card--form">
+      <div class="card-label"><span>01</span> Write</div>
+      <h2 class="card-title">Leave feedback</h2>
+
+      <div class="field">
+        <input type="text" id="name" placeholder="Your name (optional)" autocomplete="off" />
+      </div>
+
+      <div class="field star-field">
+        <div class="star-row" id="starRow">
+          <button class="star-btn" data-v="1" aria-label="1 star">★</button>
+          <button class="star-btn" data-v="2" aria-label="2 stars">★</button>
+          <button class="star-btn" data-v="3" aria-label="3 stars">★</button>
+          <button class="star-btn" data-v="4" aria-label="4 stars">★</button>
+          <button class="star-btn" data-v="5" aria-label="5 stars">★</button>
+        </div>
+        <span class="star-hint" id="starHint">Select a rating</span>
+      </div>
+
+      <div class="field">
+        <textarea id="feedback" placeholder="Describe your experience in detail..."></textarea>
+        <div class="char-count" id="charCount">0 / 500</div>
+      </div>
+
+      <button class="submit-btn" id="submitBtn" onclick="addFeedback()">
+        <span>Send Feedback</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <div class="toast" id="toast"></div>
+    </div>
+
+    <!-- CHART CARD -->
+    <div class="card card--chart">
+      <div class="card-label"><span>02</span> Insights</div>
+      <h2 class="card-title">Rating breakdown</h2>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-num" id="avgStat">—</div>
+          <div class="stat-lbl">Average</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-box">
+          <div class="stat-num" id="totalStat">0</div>
+          <div class="stat-lbl">Reviews</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-box">
+          <div class="stat-num" id="topStat">—</div>
+          <div class="stat-lbl">Most given</div>
+        </div>
+      </div>
+
+      <div class="chart-box">
+        <canvas id="chart"></canvas>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════
+       ALL REVIEWS — SEPARATE FULL SECTION
+       ═══════════════════════════════════════════ -->
+  <section class="reviews-section">
+
+    <!-- Section divider -->
+    <div class="section-divider">
+      <div class="divider-line"></div>
+      <div class="divider-label">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+          <path d="M8 1L10 6H15.5L11 9.5L13 15L8 11.5L3 15L5 9.5L0.5 6H6L8 1Z" fill="currentColor"/>
+        </svg>
+        Community
+      </div>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="reviews-inner">
+
+      <!-- Section hero -->
+      <div class="reviews-hero">
+        <div class="reviews-hero-text">
+          <div class="reviews-eyebrow">
+            <span class="eyebrow-dot"></span>
+            03 — All Reviews
+          </div>
+          <h2 class="reviews-title">What people are saying</h2>
+          <p class="reviews-sub">Real feedback from real users. Honest and unfiltered.</p>
+        </div>
+        <div class="count-badge" id="countBadge">0</div>
+      </div>
+
+      <!-- Reviews grid -->
+      <div class="reviews-grid" id="feedbackList">
+        <div class="loader-wrap">
+          <div class="spinner"></div>
+          <span>Loading reviews…</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>Pulse Feedback</span>
+    <span>·</span>
+    <span>Built with care</span>
+  </footer>
+
+<script src="script.js"></script>
+</body>
+</html>
