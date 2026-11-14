@@ -166,7 +166,7 @@ async function addFeedback() {
   let insertResult;
   try {
     insertResult = await supabaseClient.from("feedbacks").insert([
-      { name: name || "Anonymous", rating, text: details }
+      { name: name || "Anonymous", rating, text: details, feedback_period: "new" }
     ]);
   } catch (err) {
     console.error("Feedback insert failed:", err);
@@ -200,85 +200,62 @@ async function addFeedback() {
   loadFeedback();
 }
 
-// ── Load ───────────────────────────────────
+// ── Load latest feedback and previous archive separately ──
 async function loadFeedback() {
-  const listEl = document.getElementById("feedbackList");
-
-  const { data, error } = await supabaseClient
-    .from("feedbacks")
-    .select("id, name, rating, text")
+  const latestEl = document.getElementById("newFeedbackList");
+  const archiveEl = document.getElementById("feedbackList");
+  const { data, error } = await supabaseClient.from("feedbacks")
+    .select("id, name, rating, text, feedback_period")
     .order("id", { ascending: false });
 
   if (error) {
     console.error(error);
-    const code = error.code ? ` (${esc(error.code)})` : "";
-    const detail = error.message ? esc(error.message) : "Check the Supabase connection and feedbacks table permissions.";
-    listEl.innerHTML = `<div class="empty-state"><strong>⚠️ Reviews could not be loaded${code}.</strong><br><span>${detail}</span><br><small>Please check the Supabase SELECT policy for the public feedbacks table.</small></div>`;
+    const detail = error.message ? esc(error.message) : "Check Supabase permissions.";
+    const message = `<div class="empty-state"><strong>⚠️ Reviews could not be loaded.</strong><br><span>${detail}</span><br><small>Run the feedback-period migration in Supabase.</small></div>`;
+    latestEl.innerHTML = message;
+    archiveEl.innerHTML = message;
     return;
   }
+
+  const latest = (data || []).filter(f => f.feedback_period === "new");
+  const previous = (data || []).filter(f => f.feedback_period !== "new");
+  renderFeedbackCards(latest, latestEl, "No new feedback yet. Be the first to share a fresh memory! ✨");
+  renderFeedbackCards(previous, archiveEl, "No previous feedback found.");
+  document.getElementById("newCountBadge").textContent = latest.length;
+  document.getElementById("countBadge").textContent = previous.length;
 
   const counts = [0, 0, 0, 0, 0];
-  listEl.innerHTML = "";
-
-  if (!data || data.length === 0) {
-    listEl.innerHTML = `<div class="empty-state">No reviews yet — be the first! 🌱</div>`;
-    updateStats([], counts);
-    return;
-  }
-
-  data.forEach(f => {
-    counts[f.rating - 1]++;
-
-    const filledStars = "★".repeat(f.rating);
-    const emptyStars  = "☆".repeat(5 - f.rating);
-
-    // Initials avatar
-    const initial = (f.name || "A")[0].toUpperCase();
-    const hue = (f.name || "A").charCodeAt(0) * 37 % 360;
-
-    const item = document.createElement("div");
-    item.className = "fi";
-    item.innerHTML = `
-      <div class="fi-top">
-        <div class="fi-avatar" style="--hue:${hue}">${initial}</div>
-        <div class="fi-meta">
-          <span class="fi-name">${esc(f.name)}</span>
-          <span class="fi-stars">${filledStars}<span class="fi-stars-empty">${emptyStars}</span></span>
-        </div>
-      </div>
-      <p class="fi-text">${esc(f.text)}</p>
-      <div class="fi-rating-bar">
-        <div class="fi-rating-fill" style="width:${(f.rating/5)*100}%"></div>
-      </div>
-    `;
-    listEl.appendChild(item);
-  });
-
-  updateStats(data, counts);
+  latest.forEach(f => { const n = Number(f.rating); if (n >= 1 && n <= 5) counts[n - 1]++; });
+  updateStats(latest, counts);
 }
 
-// ── Stats + Chart update ───────────────────
+function renderFeedbackCards(items, listEl, emptyMessage) {
+  listEl.innerHTML = "";
+  if (!items.length) { listEl.innerHTML = `<div class="empty-state">${emptyMessage}</div>`; return; }
+  items.forEach(f => {
+    const filled = "★".repeat(Number(f.rating));
+    const empty = "☆".repeat(5 - Number(f.rating));
+    const initial = (f.name || "A")[0].toUpperCase();
+    const hue = (f.name || "A").charCodeAt(0) * 37 % 360;
+    const item = document.createElement("div");
+    item.className = "fi";
+    item.innerHTML = `<div class="fi-top"><div class="fi-avatar" style="--hue:${hue}">${esc(initial)}</div><div class="fi-meta"><span class="fi-name">${esc(f.name)}</span><span class="fi-stars">${filled}<span class="fi-stars-empty">${empty}</span></span></div></div><p class="fi-text">${esc(f.text)}</p><div class="fi-rating-bar"><div class="fi-rating-fill" style="width:${(Number(f.rating)/5)*100}%"></div></div>`;
+    listEl.appendChild(item);
+  });
+}
+
+// Chart and statistics show only the latest feedback.
 function updateStats(data, counts) {
-  // Count badge
-  document.getElementById("countBadge").textContent = data.length;
-
-  if (data.length === 0) {
-    document.getElementById("avgStat").textContent   = "—";
+  if (!data.length) {
+    document.getElementById("avgStat").textContent = "—";
     document.getElementById("totalStat").textContent = "0";
-    document.getElementById("topStat").textContent   = "—";
+    document.getElementById("topStat").textContent = "—";
   } else {
-    const total = data.reduce((acc, f) => acc + f.rating, 0);
-    const avg   = (total / data.length).toFixed(1);
-
-    // Most common rating
-    const maxCount = Math.max(...counts);
-    const topRating = counts.indexOf(maxCount) + 1;
-
-    document.getElementById("avgStat").textContent   = `${avg}★`;
+    const avg = (data.reduce((sum, f) => sum + Number(f.rating), 0) / data.length).toFixed(1);
+    document.getElementById("avgStat").textContent = `${avg}★`;
     document.getElementById("totalStat").textContent = data.length;
-    document.getElementById("topStat").textContent   = `${topRating}★`;
+    document.getElementById("topStat").textContent = `${counts.indexOf(Math.max(...counts)) + 1}★`;
   }
-
   chart.data.datasets[0].data = counts;
   chart.update("active");
 }
