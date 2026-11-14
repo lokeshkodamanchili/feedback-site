@@ -895,3 +895,45 @@ textarea {
 @media (min-width: 700px) and (max-width: 999px) {
   .hero-title { font-size: 3.6rem; }
 }
+
+/* ── FINAL BHAAI PDFs REVIEW FORM ────────── */
+.form-intro {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin: -12px 0 22px;
+}
+.field-label {
+  display: block;
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin: 0 0 9px;
+}
+.form-select {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  color: var(--text-primary);
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  font: 400 .92rem var(--font-body);
+  outline: none;
+}
+.form-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+.form-select option { color: #17171d; background: #fff; }
+.check-field { border: 0; padding: 0; min-width: 0; }
+.check-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }
+.check-grid label {
+  display: flex; align-items: center; gap: 9px; min-height: 42px;
+  padding: 9px 11px; border: 1px solid var(--glass-border);
+  border-radius: 11px; background: rgba(255,255,255,.035);
+  color: var(--text-secondary); font-size: .82rem; cursor: pointer;
+}
+.check-grid label:has(input:checked) {
+  border-color: var(--accent); color: var(--text-primary); background: var(--accent-dim);
+}
+.check-grid input { accent-color: var(--accent); }
+.privacy-note { color: var(--text-muted); font-size: .74rem; line-height: 1.5; margin: 0 0 16px; }
+@media (max-width: 380px) { .check-grid { grid-template-columns: 1fr; } }
