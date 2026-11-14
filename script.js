@@ -158,7 +158,7 @@ async function addFeedback() {
     usage ? `Usage frequency: ${usage}` : "",
     sections.length ? `Sections used: ${sections.join(", ")}` : "",
     recommend ? `Would recommend: ${recommend}` : "",
-    `Student feedback: ${review}`
+    `Student experience: ${review}`
   ].filter(Boolean).join("\n\n");
 
   // Loading state
@@ -190,7 +190,7 @@ async function addFeedback() {
   starHint.textContent = "Select a rating";
   starHint.style.color = "";
 
-  showToast("🎉 Thank you for being part of BHAAI PDFs. Your review has been submitted!", "success");
+  showToast("🎉 Thank you for being part of the BHAAI PDFs journey. Your story has been shared!", "success");
   loadFeedback();
 }
 
