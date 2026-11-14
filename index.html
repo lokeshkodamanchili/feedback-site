@@ -12,6 +12,9 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
+  <link rel="icon" type="image/jpeg" href="logo.jpeg" />
+  <link rel="apple-touch-icon" href="logo.jpeg" />
+  <meta name="theme-color" content="#0a0a0f" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -31,7 +34,7 @@
 </div>
 <span>Bhai pdfs</span>
       </a>
-      <div class="header-pill">The Final Review</div>
+      <div class="header-tools"><a class="feedback-share-link" href="https://lokeshkodamanchili.github.io/feedback-site/" target="_blank" rel="noopener">Share feedback link ↗</a><div class="header-pill">The Final Review</div></div>
     </div>
   </header>
 
@@ -68,18 +71,6 @@
           <option>Once or twice</option>
         </select>
       </div>
-
-      <fieldset class="field check-field">
-        <legend class="field-label">Which parts of BHAAI PDFs did you use? (Select all that apply)</legend>
-        <div class="check-grid">
-          <label><input type="checkbox" name="sections" value="Mid-1 PDFs" /> <span>Mid-1 PDFs</span></label>
-          <label><input type="checkbox" name="sections" value="Mid-2 PDFs" /> <span>Mid-2 PDFs</span></label>
-          <label><input type="checkbox" name="sections" value="Semester PDFs" /> <span>Semester PDFs</span></label>
-          <label><input type="checkbox" name="sections" value="PDF Shuffle" /> <span>PDF Shuffle</span></label>
-          <label><input type="checkbox" name="sections" value="PDF Updates" /> <span>PDF Updates</span></label>
-          <label><input type="checkbox" name="sections" value="Other resources" /> <span>Other resources</span></label>
-        </div>
-      </fieldset>
 
       <div class="field star-field">
         <label class="field-label">How would you rate your overall experience with the BHAAI PDFs website?</label>
@@ -194,12 +185,23 @@
     </div>
   </section>
 
+  <section class="creators-section" aria-labelledby="creators-title">
+    <div class="creators-heading"><p class="hero-eyebrow"><span class="eyebrow-dot"></span> THE DUO BEHIND BHAAI PDFs</p><h2 id="creators-title">Connect with the creators.</h2><p>Want to stay connected? Follow the two people behind BHAAI PDFs on LinkedIn.</p></div>
+    <div class="creators-profiles">
+      <a class="creator-profile" href="https://www.linkedin.com/in/s-s-lokesh-kodamanchili-a8678b348/?skipRedirect=true" target="_blank" rel="noopener noreferrer"><span class="linkedin-mark" aria-hidden="true">in</span><span class="creator-profile-copy"><strong>Lokesh Kodamanchili</strong><small>Connect on LinkedIn</small></span><span class="profile-arrow">↗</span></a>
+      <a class="creator-profile" href="https://www.linkedin.com/in/matseti-kedhara-sri-ramakrishna-550286291/" target="_blank" rel="noopener noreferrer"><span class="linkedin-mark" aria-hidden="true">in</span><span class="creator-profile-copy"><strong>Matseti Kedhara Sri Ramakrishna</strong><small>Connect on LinkedIn</small></span><span class="profile-arrow">↗</span></a>
+    </div>
+  </section>
   <footer class="footer">
     <span>BHAAI PDFs</span>
+    <span>·</span>
+    <a href="https://lokeshkodamanchili.github.io/feedback-site/" class="footer-feedback-link">Final feedback link ↗</a>
     <span>·</span>
     <span>Thank you for being part of our journey · Team BHAAI PDFs</span>
   </footer>
 
 <script src="script.js"></script>
+<button type="button" class="vertical-theme-toggle" id="themeToggle" aria-label="Switch to day mode" aria-pressed="false" title="Toggle day and night mode"><span class="toggle-track"><span class="toggle-sun">☀</span><span class="toggle-moon">☾</span></span><span class="toggle-knob"></span></button>
+<script src="theme.js"></script>
 </body>
 </html>
