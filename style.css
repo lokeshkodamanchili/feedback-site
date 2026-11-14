@@ -937,3 +937,36 @@ textarea {
 .check-grid input { accent-color: var(--accent); }
 .privacy-note { color: var(--text-muted); font-size: .74rem; line-height: 1.5; margin: 0 0 16px; }
 @media (max-width: 380px) { .check-grid { grid-template-columns: 1fr; } }
+
+/* BHAAI PDFs creator cards, share link and day/night toggle */
+.header-tools{display:flex;align-items:center;gap:12px}
+.feedback-share-link,.footer-feedback-link{color:var(--accent);font-size:.76rem;font-weight:600}
+.feedback-share-link{padding:8px 12px;border:1px solid var(--accent-dim);border-radius:999px;background:var(--accent-dim)}
+.creators-section{max-width:1100px;margin:0 auto;padding:24px 24px 58px}
+.creators-heading{text-align:center;margin-bottom:22px}
+.creators-heading h2{font:700 clamp(1.7rem,4vw,2.5rem) var(--font-display);letter-spacing:-.04em;margin:8px 0}
+.creators-heading>p:last-child{color:var(--text-secondary);font-size:.9rem}
+.creators-profiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:760px;margin:24px auto 0}
+.creator-profile{display:flex;align-items:center;gap:13px;padding:18px;border:1px solid var(--glass-border);border-radius:16px;background:var(--glass-bg);transition:border-color .2s,transform .2s,background .2s}
+.creator-profile:hover{border-color:#0a66c2;transform:translateY(-3px);background:var(--glass-hover)}
+.linkedin-mark{width:42px;height:42px;display:grid;place-items:center;flex:0 0 42px;border-radius:11px;background:#0a66c21a;color:#0a66c2;font:800 21px Arial,sans-serif}
+.creator-profile-copy{min-width:0;flex:1}.creator-profile-copy strong{display:block;font-size:.88rem;line-height:1.4}.creator-profile-copy small{display:block;color:var(--text-secondary);font-size:.74rem;margin-top:4px}
+.profile-arrow{color:var(--accent);font-size:1.1rem}
+.vertical-theme-toggle{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:150;width:48px;height:104px;padding:3px;border:1px solid #ffffff70;border-radius:999px;background:linear-gradient(180deg,#d9e1f4,#29344d);box-shadow:0 8px 28px #0005;cursor:pointer}
+.toggle-track{position:relative;display:block;width:100%;height:100%;border-radius:999px;overflow:hidden;background:linear-gradient(180deg,#6684cb,#f1d77d);transition:background .4s}
+.toggle-sun,.toggle-moon{position:absolute;left:50%;transform:translateX(-50%);font-size:24px;transition:opacity .3s}
+.toggle-sun{top:8px;color:#ffe34f}.toggle-moon{bottom:8px;color:#fff;opacity:0}
+.toggle-knob{position:absolute;left:7px;bottom:7px;width:32px;height:32px;border-radius:50%;background:#fff;box-shadow:0 2px 8px #0005;transition:transform .35s}
+:root[data-theme="light"] .toggle-track{background:linear-gradient(180deg,#f4d56f,#a6c8f0)}
+:root[data-theme="light"] .toggle-sun{opacity:0}:root[data-theme="light"] .toggle-moon{opacity:1}
+:root[data-theme="light"] .toggle-knob{transform:translateY(-54px)}
+:root[data-theme="light"] body{background:#faf6f0;color:#292127}
+:root[data-theme="light"] .header{background:rgba(250,246,240,.88);border-color:rgba(65,38,32,.15)}
+:root[data-theme="light"] .logo{color:#292127}
+:root[data-theme="light"] .hero-sub,:root[data-theme="light"] .form-intro,:root[data-theme="light"] .creators-heading>p:last-child{color:#6e6069}
+:root[data-theme="light"] .card,:root[data-theme="light"] .fi,:root[data-theme="light"] .creator-profile{background:#fffcf8;border-color:rgba(65,38,32,.15);color:#292127}
+:root[data-theme="light"] .card-title,:root[data-theme="light"] .field-label,:root[data-theme="light"] .fi-name,:root[data-theme="light"] .creators-heading h2{color:#292127}
+:root[data-theme="light"] input[type="text"],:root[data-theme="light"] textarea,:root[data-theme="light"] .form-select{background:#fff;color:#352a30;border-color:rgba(65,38,32,.18)}
+:root[data-theme="light"] .footer{border-color:rgba(65,38,32,.15)}
+:root,body,.card,.fi,.creator-profile{transition:background-color .35s,color .35s,border-color .35s}
+@media(max-width:650px){.creators-profiles{grid-template-columns:1fr}.header-tools{gap:6px}.feedback-share-link{font-size:.65rem;padding:7px 8px}.header-pill{font-size:.6rem}.vertical-theme-toggle{right:8px;width:40px;height:88px}.toggle-knob{width:26px;height:26px;left:6px;bottom:6px}:root[data-theme="light"] .toggle-knob{transform:translateY(-46px)}.creators-section{padding-inline:18px}.footer{flex-wrap:wrap;padding-right:58px}}
