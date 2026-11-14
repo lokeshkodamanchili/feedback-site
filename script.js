@@ -204,9 +204,18 @@ async function addFeedback() {
 async function loadFeedback() {
   const latestEl = document.getElementById("newFeedbackList");
   const archiveEl = document.getElementById("feedbackList");
-  const { data, error } = await supabaseClient.from("feedbacks")
-    .select("id, name, rating, text, feedback_period")
-    .order("id", { ascending: false });
+  let data, error;
+  try {
+    ({ data, error } = await supabaseClient.from("feedbacks")
+      .select("id, name, rating, text, feedback_period")
+      .order("id", { ascending: false }));
+  } catch (networkError) {
+    console.error("Feedback loading failed:", networkError);
+    const message = '<div class="empty-state">Feedback could not be reached. Please refresh the page or try again shortly.</div>';
+    latestEl.innerHTML = message;
+    archiveEl.innerHTML = message;
+    return;
+  }
 
   if (error) {
     console.error(error);
