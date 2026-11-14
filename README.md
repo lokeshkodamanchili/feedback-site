@@ -3,12 +3,11 @@
 <img src="logo.jpeg" alt="Bhai PDFs logo" width="104">
 
 # Bhai PDFs
-### A small review. A better study resource.
+### The final student review for BHAAI PDFs
 
-**Rate the PDFs. Share your experience. Help shape what comes next.**
+**Your experience matters. Rate the library, tell us what helped, and share your final suggestions.**
 
-A focused feedback portal for student study materials, bringing  
-star ratings, written reviews, and visual insights into one experience.
+A student feedback portal for the BHAAI PDFs Library. It collects overall ratings, usage frequency, the sections students used (Mid-1, Mid-2, Semester PDFs, PDF Shuffle and PDF Updates), recommendations, and written suggestions.
 
 [![Visit the portal](https://img.shields.io/badge/VISIT_THE_PORTAL-FF6B35?style=for-the-badge&logo=githubpages&logoColor=white)](https://lokeshkodamanchili.github.io/feedback-site/)
 [![Explore the code](https://img.shields.io/badge/EXPLORE_THE_CODE-00A889?style=for-the-badge&logo=github&logoColor=white)](script.js)
@@ -26,9 +25,9 @@ star ratings, written reviews, and visual insights into one experience.
 
 ## Made for feedback that matters
 
-Sharing a PDF is only the beginning. Knowing whether it helps students makes the next resource better.
+As BHAAI PDFs reaches its final review round, we want to understand how the library supported students during preparation and what should be improved or carried forward.
 
-**Bhai PDFs** gives readers a direct way to rate study materials and explain their experience. The portal pairs a simple submission form with a rating dashboard and a community review section, helping the creator understand what is useful and where improvements are needed.
+**Bhai PDFs** gives readers a direct way to rate study materials and explain their experience. The portal pairs a contextual student review form with a rating dashboard and a community review section. Student answers are stored using the existing Supabase `feedbacks` table (`name`, `rating`, `text`) so the current database and previously submitted reviews remain compatible.
 
 The interface uses **Bhai PDFs** branding; the source comments and footer also refer to the feedback experience as **Pulse Feedback**.
 
