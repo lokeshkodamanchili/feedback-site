@@ -159,7 +159,7 @@ async function addFeedback() {
     sections.length ? `Sections used: ${sections.join(", ")}` : "",
     recommend ? `Would recommend: ${recommend}` : "",
     `Student feedback: ${review}`
-  ].filter(Boolean).join("\\n\\n");
+  ].filter(Boolean).join("\n\n");
 
   // Loading state
   submitBtn.disabled = true;
