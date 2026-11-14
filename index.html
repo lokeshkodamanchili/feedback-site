@@ -131,7 +131,7 @@
         <div class="stat-divider"></div>
         <div class="stat-box">
           <div class="stat-num" id="totalStat">0</div>
-          <div class="stat-lbl">Reviews</div>
+          <div class="stat-lbl">New reviews</div>
         </div>
         <div class="stat-divider"></div>
         <div class="stat-box">
@@ -146,6 +146,20 @@
     </div>
 
   </main>
+
+  <section class="latest-section" id="latest-feedback">
+    <div class="latest-inner">
+      <div class="latest-heading">
+        <div>
+          <div class="reviews-eyebrow"><span class="eyebrow-dot"></span> 03 — Fresh voices</div>
+          <h2 class="reviews-title">Latest feedback</h2>
+          <p class="reviews-sub">New experiences shared by the BHAAI PDFs community from November 14, 2026 onward.</p>
+        </div>
+        <div class="latest-count-wrap"><span class="latest-count-label">NEW REVIEWS</span><span class="count-badge" id="newCountBadge">0</span></div>
+      </div>
+      <div class="reviews-grid" id="newFeedbackList"><div class="loader-wrap"><div class="spinner"></div><span>Loading latest feedback…</span></div></div>
+    </div>
+  </section>
 
   <!-- ═══════════════════════════════════════════
        ALL REVIEWS — SEPARATE FULL SECTION
@@ -171,21 +185,23 @@
         <div class="reviews-hero-text">
           <div class="reviews-eyebrow">
             <span class="eyebrow-dot"></span>
-            03 — Your memories
+            04 — The archive
           </div>
-          <h2 class="reviews-title">What BHAAI PDFs meant to you</h2>
-          <p class="reviews-sub">Real experiences and memories shared by students who were part of the BHAAI PDFs journey.</p>
+          <h2 class="reviews-title">Previous community memories</h2>
+          <p class="reviews-sub">The original feedback collected before November 14, 2026, preserved just as it was shared.</p>
         </div>
         <div class="count-badge" id="countBadge">0</div>
       </div>
 
-      <!-- Reviews grid -->
+      <details class="archive-details">
+        <summary class="archive-summary"><span><strong>View previous feedback</strong><small>Open the archive of earlier community memories</small></span><span class="archive-chevron" aria-hidden="true">⌄</span></summary>
       <div class="reviews-grid" id="feedbackList">
         <div class="loader-wrap">
           <div class="spinner"></div>
           <span>Loading reviews…</span>
         </div>
       </div>
+      </details>
 
     </div>
   </section>
