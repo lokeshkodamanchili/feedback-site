@@ -163,9 +163,18 @@ async function addFeedback() {
   submitBtn.disabled = true;
   submitBtn.querySelector("span").textContent = "Sending…";
 
-  const { error } = await supabaseClient.from("feedbacks").insert([
-    { name: name || "Anonymous", rating, text: details }
-  ]);
+  let insertResult;
+  try {
+    insertResult = await supabaseClient.from("feedbacks").insert([
+      { name: name || "Anonymous", rating, text: details }
+    ]);
+  } catch (err) {
+    console.error("Feedback insert failed:", err);
+    submitBtn.disabled = false;
+    submitBtn.querySelector("span").textContent = "Share My Experience";
+    return showToast("❌ Connection error. Please try again.", "error");
+  }
+  const { error } = insertResult;
 
   // Restore button
   submitBtn.disabled = false;
@@ -202,7 +211,9 @@ async function loadFeedback() {
 
   if (error) {
     console.error(error);
-    listEl.innerHTML = `<div class="empty-state">⚠️ Failed to load reviews.</div>`;
+    const code = error.code ? ` (${esc(error.code)})` : "";
+    const detail = error.message ? esc(error.message) : "Check the Supabase connection and feedbacks table permissions.";
+    listEl.innerHTML = `<div class="empty-state"><strong>⚠️ Reviews could not be loaded${code}.</strong><br><span>${detail}</span><br><small>Please check the Supabase SELECT policy for the public feedbacks table.</small></div>`;
     return;
   }
 
