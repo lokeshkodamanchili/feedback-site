@@ -147,7 +147,6 @@ async function addFeedback() {
   const name = document.getElementById("name").value.trim();
   const review = textarea.value.trim();
   const usage = document.getElementById("usage").value;
-  const sections = [...document.querySelectorAll('input[name="sections"]:checked')].map(input => input.value);
   const recommend = document.getElementById("recommend").value;
 
   if (!rating)        return showToast("⭐ Please select a star rating", "error");
@@ -156,7 +155,6 @@ async function addFeedback() {
 
   const details = [
     usage ? `Usage frequency: ${usage}` : "",
-    sections.length ? `Sections used: ${sections.join(", ")}` : "",
     recommend ? `Would recommend: ${recommend}` : "",
     `Student experience: ${review}`
   ].filter(Boolean).join("\n\n");
@@ -171,7 +169,7 @@ async function addFeedback() {
 
   // Restore button
   submitBtn.disabled = false;
-  submitBtn.querySelector("span").textContent = "Send Feedback";
+  submitBtn.querySelector("span").textContent = "Share My Experience";
 
   if (error) {
     console.error(error);
@@ -183,7 +181,6 @@ async function addFeedback() {
   document.getElementById("name").value = "";
   document.getElementById("usage").value = "";
   document.getElementById("recommend").value = "";
-  document.querySelectorAll('input[name="sections"]').forEach(input => { input.checked = false; });
   charCount.textContent = "0 / 500";
   setRating(0);
   stars.forEach(s => s.classList.remove("active", "lit"));
