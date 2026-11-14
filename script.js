@@ -145,18 +145,28 @@ const chart = new Chart(ctx, {
 // ── Submit ─────────────────────────────────
 async function addFeedback() {
   const name = document.getElementById("name").value.trim();
-  const text = textarea.value.trim();
+  const review = textarea.value.trim();
+  const usage = document.getElementById("usage").value;
+  const sections = [...document.querySelectorAll('input[name="sections"]:checked')].map(input => input.value);
+  const recommend = document.getElementById("recommend").value;
 
   if (!rating)        return showToast("⭐ Please select a star rating", "error");
-  if (!text)          return showToast("✏️ Please write some feedback", "error");
-  if (text.length < 5) return showToast("✏️ Feedback is too short", "error");
+  if (!review)          return showToast("✏️ Please share your experience", "error");
+  if (review.length < 5) return showToast("✏️ Feedback is too short", "error");
+
+  const details = [
+    usage ? `Usage frequency: ${usage}` : "",
+    sections.length ? `Sections used: ${sections.join(", ")}` : "",
+    recommend ? `Would recommend: ${recommend}` : "",
+    `Student feedback: ${review}`
+  ].filter(Boolean).join("\\n\\n");
 
   // Loading state
   submitBtn.disabled = true;
   submitBtn.querySelector("span").textContent = "Sending…";
 
   const { error } = await supabaseClient.from("feedbacks").insert([
-    { name: name || "Anonymous", rating, text }
+    { name: name || "Anonymous", rating, text: details }
   ]);
 
   // Restore button
@@ -171,13 +181,16 @@ async function addFeedback() {
   // Reset form
   textarea.value = "";
   document.getElementById("name").value = "";
+  document.getElementById("usage").value = "";
+  document.getElementById("recommend").value = "";
+  document.querySelectorAll('input[name="sections"]').forEach(input => { input.checked = false; });
   charCount.textContent = "0 / 500";
   setRating(0);
   stars.forEach(s => s.classList.remove("active", "lit"));
   starHint.textContent = "Select a rating";
   starHint.style.color = "";
 
-  showToast("🎉 Thank you for your feedback!", "success");
+  showToast("🎉 Thank you for being part of BHAAI PDFs. Your review has been submitted!", "success");
   loadFeedback();
 }
 
