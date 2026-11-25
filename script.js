@@ -9,6 +9,9 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 // ── State ──────────────────────────────────
 let rating = 0;
+const visitorId = (() => { let id = localStorage.getItem("bhaai_feedback_visitor"); if (!id) { id = crypto.randomUUID(); localStorage.setItem("bhaai_feedback_visitor", id); } return id; })();
+let feedbackLikes = new Map();
+let feedbackReplies = new Map();
 const RATING_WORDS = ["", "Poor", "Fair", "Good", "Great", "Excellent!"];
 
 // ── DOM refs ───────────────────────────────
@@ -226,6 +229,19 @@ async function loadFeedback() {
     return;
   }
 
+  const ids = (data || []).map(f => String(f.id));
+  if (ids.length) {
+    const [likesResult, repliesResult] = await Promise.all([
+      supabaseClient.from("feedback_likes").select("feedback_id, visitor_id").in("feedback_id", ids),
+      supabaseClient.from("feedback_replies").select("feedback_id, reply_text, updated_at").in("feedback_id", ids)
+    ]);
+    feedbackLikes = new Map();
+    if (!likesResult.error) (likesResult.data || []).forEach(row => { const key = String(row.feedback_id); const current = feedbackLikes.get(key) || { count: 0, liked: false }; current.count++; if (row.visitor_id === visitorId) current.liked = true; feedbackLikes.set(key, current); });
+    feedbackReplies = new Map();
+    if (!repliesResult.error) (repliesResult.data || []).forEach(row => feedbackReplies.set(String(row.feedback_id), row));
+    if (likesResult.error) console.warn("Likes are unavailable until the likes/replies SQL is run:", likesResult.error.message);
+    if (repliesResult.error) console.warn("Replies are unavailable until the likes/replies SQL is run:", repliesResult.error.message);
+  }
   const latest = (data || []).filter(f => f.feedback_period === "new");
   const previous = (data || []).filter(f => f.feedback_period !== "new");
   renderFeedbackCards(latest, latestEl, "No new feedback yet. Be the first to share a fresh memory! ✨");
@@ -248,7 +264,25 @@ function renderFeedbackCards(items, listEl, emptyMessage) {
     const hue = (f.name || "A").charCodeAt(0) * 37 % 360;
     const item = document.createElement("div");
     item.className = "fi";
-    item.innerHTML = `<div class="fi-top"><div class="fi-avatar" style="--hue:${hue}">${esc(initial)}</div><div class="fi-meta"><span class="fi-name">${esc(f.name)}</span><span class="fi-stars">${filled}<span class="fi-stars-empty">${empty}</span></span></div></div><p class="fi-text">${esc(f.text)}</p><div class="fi-rating-bar"><div class="fi-rating-fill" style="width:${(Number(f.rating)/5)*100}%"></div></div>`;
+    const key = String(f.id);
+    const likeState = feedbackLikes.get(key) || { count: 0, liked: false };
+    const reply = feedbackReplies.get(key);
+    item.innerHTML = `<div class="fi-top"><div class="fi-avatar" style="--hue:${hue}">${esc(initial)}</div><div class="fi-meta"><span class="fi-name">${esc(f.name)}</span><span class="fi-stars">${filled}<span class="fi-stars-empty">${empty}</span></span></div></div><p class="fi-text">${esc(f.text)}</p><div class="fi-rating-bar"><div class="fi-rating-fill" style="width:${(Number(f.rating)/5)*100}%"></div></div><div class="fi-actions"><button type="button" class="fi-like${likeState.liked ? " is-liked" : ""}" aria-label="Like this review" ${likeState.liked ? "disabled" : ""}><img src="logo.jpeg" alt="" /><span class="fi-like-label">${likeState.liked ? "Liked" : "Like"}</span><span class="fi-like-count">${likeState.count}</span></button></div>${reply ? `<div class="fi-admin-reply"><span class="fi-reply-label">BHAAI PDFs Reply</span><p>${esc(reply.reply_text)}</p></div>` : ""}`;
+    const likeButton = item.querySelector(".fi-like");
+    likeButton.addEventListener("click", async () => {
+      if (likeButton.disabled) return;
+      likeButton.disabled = true;
+      const { error } = await supabaseClient.from("feedback_likes").insert({ feedback_id: key, visitor_id: visitorId });
+      if (error) {
+        likeButton.disabled = false;
+        showToast(error.code === "23505" ? "You already liked this review." : "Could not save your like. Please try again.", "error");
+        return;
+      }
+      likeButton.classList.add("is-liked");
+      likeButton.querySelector(".fi-like-label").textContent = "Liked";
+      likeButton.querySelector(".fi-like-count").textContent = String(likeState.count + 1);
+      showToast("Thanks for supporting this memory!", "success");
+    });
     listEl.appendChild(item);
   });
 }
