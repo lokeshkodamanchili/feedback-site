@@ -1131,3 +1131,5 @@ textarea {
 .fi-reply-label{display:block;margin-bottom:5px;color:var(--teal);font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
 .fi-admin-reply p{margin:0;color:var(--text-primary);font-size:.86rem;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
 :root[data-theme="light"] .fi-admin-reply p{color:#292127}
+
+.fi-reply-link{display:inline-flex;align-items:center;padding:6px 10px;border:1px solid var(--glass-border);border-radius:999px;color:var(--text-secondary);font-size:.78rem;font-weight:600;transition:color .2s,border-color .2s,background .2s}.fi-reply-link:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-dim)}
