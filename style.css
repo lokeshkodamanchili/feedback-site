@@ -1118,3 +1118,16 @@ textarea {
 :root[data-theme="light"] .latest-section .empty-state{color:#62545b;border-color:rgba(65,38,32,.2)}
 @media(max-width:760px){.latest-section{padding:32px 0 26px}.latest-inner{width:calc(100% - 36px)}.latest-heading{align-items:flex-start;flex-direction:column;gap:14px;margin-bottom:18px}.latest-heading .reviews-title{font-size:clamp(1.8rem,8vw,2.5rem)}.latest-section .reviews-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.latest-count-wrap{padding:8px 12px}}
 @media(max-width:520px){.latest-section .reviews-grid{grid-template-columns:1fr}.archive-summary{padding:14px 15px}.archive-details>.reviews-grid{padding:0 10px 12px}}
+
+/* BHAAI review interactions */
+.fi-actions{display:flex;align-items:center;gap:10px;margin-top:13px;padding-top:11px;border-top:1px solid var(--glass-border)}
+.fi-like{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border:1px solid var(--glass-border);border-radius:999px;color:var(--text-secondary);background:var(--glass-bg);font:600 .78rem var(--font-body);transition:background .2s,border-color .2s,transform .2s}
+.fi-like:hover:not(:disabled){transform:translateY(-1px);border-color:var(--accent);background:var(--accent-dim)}
+.fi-like img{width:19px;height:19px;object-fit:contain;border-radius:50%;background:#fff;padding:2px}
+.fi-like-count{min-width:12px;color:var(--accent);font-variant-numeric:tabular-nums}
+.fi-like.is-liked{border-color:var(--accent);background:var(--accent-dim);color:var(--text-primary)}
+.fi-like:disabled{cursor:default;opacity:1}
+.fi-admin-reply{margin-top:13px;padding:12px 14px;border-left:3px solid var(--teal);border-radius:0 12px 12px 0;background:var(--teal-dim)}
+.fi-reply-label{display:block;margin-bottom:5px;color:var(--teal);font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.fi-admin-reply p{margin:0;color:var(--text-primary);font-size:.86rem;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
+:root[data-theme="light"] .fi-admin-reply p{color:#292127}
