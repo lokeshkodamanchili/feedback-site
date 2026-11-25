@@ -251,7 +251,7 @@ async function loadFeedback() {
 
   const counts = [0, 0, 0, 0, 0];
   latest.forEach(f => { const n = Number(f.rating); if (n >= 1 && n <= 5) counts[n - 1]++; });
-  updateStats(latest, counts, (data || []).length);
+  updateStats(latest, counts);
 }
 
 function renderFeedbackCards(items, listEl, emptyMessage) {
@@ -288,7 +288,7 @@ function renderFeedbackCards(items, listEl, emptyMessage) {
 }
 
 // Chart and statistics show only the latest feedback.
-function updateStats(data, counts, studentReviewCount = data.length) {
+function updateStats(data, counts) {
   if (!data.length) {
     document.getElementById("avgStat").textContent = "—";
     document.getElementById("totalStat").textContent = "0";
@@ -296,7 +296,7 @@ function updateStats(data, counts, studentReviewCount = data.length) {
   } else {
     const avg = (data.reduce((sum, f) => sum + Number(f.rating), 0) / data.length).toFixed(1);
     document.getElementById("avgStat").textContent = `${avg}★`;
-    document.getElementById("totalStat").textContent = studentReviewCount;
+    document.getElementById("totalStat").textContent = data.length;
     document.getElementById("topStat").textContent = `${counts.indexOf(Math.max(...counts)) + 1}★`;
   }
   chart.data.datasets[0].data = counts;
